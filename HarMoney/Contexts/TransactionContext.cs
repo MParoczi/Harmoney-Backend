@@ -1,4 +1,5 @@
-﻿using HarMoney.Models;
+﻿using HarMoney.Contexts.Configurations;
+using HarMoney.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HarMoney.Contexts
@@ -9,5 +10,9 @@ namespace HarMoney.Contexts
 
         public DbSet<Transaction> Transactions { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new TransactionEntityTypeConfiguration());
+        }
     }
 }

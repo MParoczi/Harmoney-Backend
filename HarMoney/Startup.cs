@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using HarMoney.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +24,11 @@ namespace HarMoney
             services.AddControllers();
             services.AddEntityFrameworkNpgsql().AddDbContext<TransactionContext>(opt =>
                 opt.UseNpgsql(Configuration["ConnectionString"]));
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
