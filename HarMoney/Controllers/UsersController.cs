@@ -78,7 +78,7 @@ namespace HarMoney.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost("registration")]
-        public async Task<ActionResult<User>> RegisterUser(User user)
+        public async Task<ActionResult<UserDTO>> RegisterUser(User user)
         {
             var userByEmail = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
             if (userByEmail == null)
@@ -86,20 +86,20 @@ namespace HarMoney.Controllers
                 _context.User.Add(user);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetUser", new {id = user.Id}, user);
+                return CreatedAtAction("GetUser", new {id = user.Id}, new UserDTO(user));
             }
             return BadRequest();
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> LoginUser(UserAuthentication user)
+        public async Task<ActionResult<UserDTO>> LoginUser(UserAuthentication user)
         {
             var userByEmail = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
             if (userByEmail == null || user.Password != userByEmail.Password)
             {
                 return BadRequest();
             }
-            return userByEmail;
+            return new UserDTO(userByEmail);
         }
 
         // DELETE: api/Users/5
