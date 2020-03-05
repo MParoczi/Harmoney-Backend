@@ -22,7 +22,7 @@ namespace HarMoney
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddEntityFrameworkNpgsql().AddDbContext<TransactionContext>(opt =>
+            services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(opt =>
                 opt.UseNpgsql(Configuration["ConnectionString"]));
             services.AddMvc().AddJsonOptions(options =>
             {
