@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS public.transaction;
-DROP SEQUENCE IF EXISTS public.transaction_id_seq;
+DROP TABLE IF EXISTS public.user_data;
+
 CREATE TABLE transaction (
     id serial PRIMARY KEY,
     title VARCHAR(30),
@@ -25,4 +26,4 @@ CREATE TABLE user_data (
 );
 
 INSERT INTO public.user_data (first_name, last_name, email, password)
-    VALUES ('Aladár', 'Kovács', 'a@b.hu', 'admin')
+    VALUES ('Aladár', 'Kovács', 'a@b.hu', 'admin');
