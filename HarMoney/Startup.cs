@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using HarMoney.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,15 +15,31 @@ namespace HarMoney
         {
             Configuration = configuration;
         }
+        
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader();
+                    });
+            });
             services.AddControllers();
-            services.AddEntityFrameworkNpgsql().AddDbContext<TransactionContext>(opt =>
+            services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(opt =>
                 opt.UseNpgsql(Configuration["ConnectionString"]));
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +52,8 @@ namespace HarMoney
 
             app.UseHttpsRedirection();
 
+            app.UseCors(MyAllowSpecificOrigins);
+            
             app.UseRouting();
 
             app.UseAuthorization();

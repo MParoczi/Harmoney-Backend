@@ -12,9 +12,9 @@ namespace HarMoney.Controllers
     [ApiController]
     public class TransactionsController : ControllerBase
     {
-        private readonly TransactionContext _context;
+        private readonly DatabaseContext _context;
 
-        public TransactionsController(TransactionContext context)
+        public TransactionsController(DatabaseContext context)
         {
             _context = context;
         }
