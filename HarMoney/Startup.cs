@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 using HarMoney.Contexts;
 using Microsoft.AspNetCore.Builder;
@@ -34,7 +35,7 @@ namespace HarMoney
             });
             services.AddControllers();
             services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(opt =>
-                opt.UseNpgsql(Configuration["ConnectionString"]));
+                opt.UseNpgsql(Environment.GetEnvironmentVariable("HARMONEY_CONNECTION")));
             services.AddMvc().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
