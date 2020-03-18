@@ -23,18 +23,22 @@ namespace HarMoney.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnName("concurrency_stamp")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
+                        .HasColumnName("normalized_name")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
 
@@ -44,93 +48,120 @@ namespace HarMoney.Migrations
                         .IsUnique()
                         .HasName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("asp_net_roles");
                 });
 
             modelBuilder.Entity("HarMoney.Models.Transaction", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("Amount")
+                        .HasColumnName("amount")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Direction")
-                        .HasColumnType("integer");
+                    b.Property<string>("Direction")
+                        .IsRequired()
+                        .HasColumnName("direction")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("DueDate")
+                        .HasColumnName("due_date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("Frequency")
-                        .HasColumnType("integer");
+                    b.Property<string>("Frequency")
+                        .IsRequired()
+                        .HasColumnName("frequency")
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasColumnName("title")
+                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(30);
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("transactions");
                 });
 
             modelBuilder.Entity("HarMoney.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnName("access_failed_count")
                         .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnName("concurrency_stamp")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
+                        .HasColumnName("email")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnName("email_confirmed")
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
+                        .HasColumnName("first_name")
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
+                        .HasColumnName("last_name")
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
+                        .HasColumnName("lockout_enabled")
                         .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnName("lockout_end")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
+                        .HasColumnName("normalized_email")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
+                        .HasColumnName("normalized_user_name")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash")
+                        .HasColumnName("password_hash")
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
+                        .HasColumnName("phone_number")
                         .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnName("phone_number_confirmed")
                         .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnName("security_stamp")
                         .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnName("two_factor_enabled")
                         .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
+                        .HasColumnName("user_name")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
 
@@ -143,108 +174,126 @@ namespace HarMoney.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("asp_net_users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
+                        .HasColumnName("claim_type")
                         .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
+                        .HasColumnName("claim_value")
                         .HasColumnType("text");
 
                     b.Property<int>("RoleId")
+                        .HasColumnName("role_id")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("asp_net_role_claims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
+                        .HasColumnName("claim_type")
                         .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
+                        .HasColumnName("claim_value")
                         .HasColumnType("text");
 
                     b.Property<int>("UserId")
+                        .HasColumnName("user_id")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("asp_net_user_claims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
+                        .HasColumnName("login_provider")
                         .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
+                        .HasColumnName("provider_key")
                         .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
+                        .HasColumnName("provider_display_name")
                         .HasColumnType("text");
 
                     b.Property<int>("UserId")
+                        .HasColumnName("user_id")
                         .HasColumnType("integer");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("asp_net_user_logins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
                     b.Property<int>("UserId")
+                        .HasColumnName("user_id")
                         .HasColumnType("integer");
 
                     b.Property<int>("RoleId")
+                        .HasColumnName("role_id")
                         .HasColumnType("integer");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("asp_net_user_roles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.Property<int>("UserId")
+                        .HasColumnName("user_id")
                         .HasColumnType("integer");
 
                     b.Property<string>("LoginProvider")
+                        .HasColumnName("login_provider")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.Property<string>("Value")
+                        .HasColumnName("value")
                         .HasColumnType("text");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("asp_net_user_tokens");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -252,6 +301,7 @@ namespace HarMoney.Migrations
                     b.HasOne("HarMoney.Models.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
+                        .HasConstraintName("f_k_asp_net_role_claims_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -261,6 +311,7 @@ namespace HarMoney.Migrations
                     b.HasOne("HarMoney.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("f_k_asp_net_user_claims_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -270,6 +321,7 @@ namespace HarMoney.Migrations
                     b.HasOne("HarMoney.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("f_k_asp_net_user_logins_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -279,12 +331,14 @@ namespace HarMoney.Migrations
                     b.HasOne("HarMoney.Models.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
+                        .HasConstraintName("f_k_asp_net_user_roles_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("HarMoney.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("f_k_asp_net_user_roles_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -294,6 +348,7 @@ namespace HarMoney.Migrations
                     b.HasOne("HarMoney.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .HasConstraintName("f_k_asp_net_user_tokens_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
