@@ -18,8 +18,8 @@ namespace HarMoney.Contexts.Configurations
             builder.Property(prop => prop.FirstName).HasColumnName("first_name").HasMaxLength(50).IsRequired();
             builder.Property(prop => prop.LastName).HasColumnName("last_name").HasMaxLength(20).IsRequired();
             builder.Property(prop => prop.Email).HasColumnName("email").HasMaxLength(320).IsRequired();
-            builder.Property(prop => prop.Password).HasColumnName("password").HasMaxLength(20).IsRequired();
-            builder.Property(prop => prop.Token).HasColumnName("token");
+            //builder.Property(prop => prop.Password).HasColumnName("password").HasMaxLength(20).IsRequired();
+            //builder.Property(prop => prop.Token).HasColumnName("token");
         }
     }
 }
