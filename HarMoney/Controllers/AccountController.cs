@@ -48,6 +48,15 @@ namespace HarMoney.Controllers
                 return BadRequest();
             }
         }
+        
+        public async Task<int> Logout([FromBody]User userToLogout)
+        {
+            var user = await UserManager.FindByEmailAsync(userToLogout.Email);
+            await UserManager.UpdateSecurityStampAsync(user);
+            
+            await SignInManager.SignOutAsync();
+            return 204;
+        }
             
     }
 }
