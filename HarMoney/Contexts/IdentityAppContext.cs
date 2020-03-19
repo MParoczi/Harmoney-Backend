@@ -24,27 +24,11 @@ namespace HarMoney.Contexts
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new TransactionEntityTypeConfiguration());
             // builder.ApplyConfiguration(new UserEntityTypeConfiguration());
-            foreach (var entityType in builder.Model.GetEntityTypes())
-            {
-                entityType.SetTableName(ConvertToSnakeCase(entityType.GetTableName()));
-                foreach (var property in entityType.GetProperties())
-                {
-                    property.SetColumnName(ConvertToSnakeCase(property.Name));
-                    foreach (var fk in entityType.FindForeignKeys(property))
-                    {
-                        fk.SetConstraintName(ConvertToSnakeCase(fk.GetConstraintName()));
-                    }
-                   
-                }
-            }
-            
         }
-        
-        private string ConvertToSnakeCase(String name)
-        {
-            var result = Regex.Replace(name, ".[A-Z]", m => m.Value[0] + "_" + m.Value[1]);
 
-            return result.ToLower();
-        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder
+            .UseNpgsql(Environment.GetEnvironmentVariable("HARMONEY_CONNECTION"))
+            .UseSnakeCaseNamingConvention()
+            .UseLowerCaseNamingConvention();
     }
 }

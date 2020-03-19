@@ -14,6 +14,8 @@ namespace HarMoney.Models
         public Frequency Frequency { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public Direction Direction { get; set; }
+
+        public User User { get; set; }
     }
 
     public enum Frequency
