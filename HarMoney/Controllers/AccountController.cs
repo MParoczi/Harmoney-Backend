@@ -19,22 +19,29 @@ namespace HarMoney.Controllers
             SignInManager = signInManager;
         }
 
-        public async Task<string> Register([FromBody] UserAuthentication model)
+        public async Task<ActionResult<User>> Register([FromBody] UserRegistration model)
         {
-            var user = new User {UserName = model.Email, Email = model.Email};
-            
-            var result = await UserManager.CreateAsync(user, model.Password);
-
-            return result.ToString();
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if(user == null){
+                user = new User {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                return user;
+            }
+            return BadRequest();
         }
 
         public async Task<ActionResult<User>> Login([FromBody]UserAuthentication model)
         {
-            // User user = model;
+            User user = await UserManager.FindByEmailAsync(model.Email);
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
             if (result.Succeeded)
             {
-                return new User();
+                return user;
             }
             else
             {
