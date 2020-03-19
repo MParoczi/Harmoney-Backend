@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HarMoney.Models
 {
-    public class User : IdentityUser<int>
+    public class AppRole : IdentityRole<int>
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
     }
 }

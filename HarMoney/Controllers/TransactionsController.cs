@@ -12,9 +12,9 @@ namespace HarMoney.Controllers
     [ApiController]
     public class TransactionsController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly IdentityAppContext _context;
 
-        public TransactionsController(DatabaseContext context)
+        public TransactionsController(IdentityAppContext context)
         {
             _context = context;
         }
@@ -44,7 +44,7 @@ namespace HarMoney.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTransaction(long id, Transaction transaction)
+        public async Task<ActionResult<Transaction>> PutTransaction(long id, Transaction transaction)
         {
             if (id != transaction.Id)
             {
@@ -69,7 +69,7 @@ namespace HarMoney.Controllers
                 }
             }
 
-            return NoContent();
+            return transaction;
         }
 
         // POST: api/Transactions

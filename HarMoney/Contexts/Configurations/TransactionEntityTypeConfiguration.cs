@@ -9,7 +9,7 @@ namespace HarMoney.Contexts.Configurations
     {
         public void Configure(EntityTypeBuilder<Transaction> builder)
         {
-            builder.ToTable("transaction");
+            builder.ToTable("transactions");
             builder.HasKey(prop => prop.Id);
             builder.Property(prop => prop.Id).HasColumnName("id").ValueGeneratedOnAdd();
             builder.Property(prop => prop.Title).HasColumnName("title").HasMaxLength(30).IsRequired();
