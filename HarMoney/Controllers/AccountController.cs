@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Composition;
 using System.Threading.Tasks;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Identity;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HarMoney.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
         private UserManager<User> UserManager { get; }
@@ -18,34 +19,26 @@ namespace HarMoney.Controllers
             SignInManager = signInManager;
         }
 
-        public async Task<string> Register()
+        public async Task<string> Register([FromBody] UserAuthentication model)
         {
-            User user = await UserManager.FindByNameAsync("TestUser");
-            IdentityResult result = new IdentityResult();
-            if (user == null)
-            {
-                user = new User();
-                user.UserName = "TestUser";
-                user.Email = "test@test.hu";
-                user.FirstName = "Teszt";
-                user.LastName = "Elek";
+            var user = new User {UserName = model.Email, Email = model.Email};
+            
+            var result = await UserManager.CreateAsync(user, model.Password);
 
-                result = await UserManager.CreateAsync(user, "Test@1234");
-
-            }
             return result.ToString();
         }
 
-        public async Task<String> Login()
+        public async Task<ActionResult<User>> Login([FromBody]UserAuthentication model)
         {
-            var result = await SignInManager.PasswordSignInAsync("TestUser", "Test@1234", false, false);
+            // User user = model;
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
             if (result.Succeeded)
             {
-                return result.ToString();
+                return new User();
             }
             else
             {
-                return result.ToString();
+                return BadRequest();
             }
         }
             

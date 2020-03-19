@@ -56,11 +56,6 @@ CREATE TABLE "Transactions" (
                                 CONSTRAINT "PK_Transactions" PRIMARY KEY ("Id")
 );
 
-INSERT INTO public.transactions (title, due_date, amount, frequency, direction)
-VALUES ('zsebpénz', TO_DATE('03/03/2020', 'DD/MM/YYYY'), 20000, 'Single', 'Income'),
-       ('gázszámla', TO_DATE('15/03/2020', 'DD/MM/YYYY'), 13458, 'Monthly', 'Expenditure'),
-       ('fizetés', TO_DATE('01/03/2020', 'DD/MM/YYYY'), 300000, 'Monthly', 'Income'),
-       ('közös költség', TO_DATE('09/03/2020', 'DD/MM/YYYY'), 28236, 'Monthly', 'Expenditure');
 
 
 CREATE TABLE "AspNetRoleClaims" (
@@ -448,3 +443,8 @@ ALTER TABLE transactions ALTER COLUMN direction DROP DEFAULT;
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20200318192441_RenameTableTransactionToTransactionsWithConfig', '3.1.2');
 
+INSERT INTO public.transactions (title, due_date, amount, frequency, direction)
+VALUES ('zsebpénz', TO_DATE('03/03/2020', 'DD/MM/YYYY'), 20000, 'Single', 'Income'),
+       ('gázszámla', TO_DATE('15/03/2020', 'DD/MM/YYYY'), 13458, 'Monthly', 'Expenditure'),
+       ('fizetés', TO_DATE('01/03/2020', 'DD/MM/YYYY'), 300000, 'Monthly', 'Income'),
+       ('közös költség', TO_DATE('09/03/2020', 'DD/MM/YYYY'), 28236, 'Monthly', 'Expenditure');
