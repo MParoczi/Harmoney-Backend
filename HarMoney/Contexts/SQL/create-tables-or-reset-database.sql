@@ -104,7 +104,7 @@ CREATE UNIQUE INDEX user_name_index ON asp_net_users (normalized_user_name);
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20200321212943_InitialCreate', '3.1.2');
 
-INSERT INTO public.transaction (title, due_date, amount, frequency, direction)
+INSERT INTO public.transactions (title, due_date, amount, frequency, direction)
 VALUES ('zsebpénz', TO_DATE('03/03/2020', 'DD/MM/YYYY'), 20000, 'Single', 'Income'),
        ('gázszámla', TO_DATE('15/03/2020', 'DD/MM/YYYY'), 13458, 'Monthly', 'Expenditure'),
        ('fizetés', TO_DATE('01/03/2020', 'DD/MM/YYYY'), 300000, 'Monthly', 'Income'),
