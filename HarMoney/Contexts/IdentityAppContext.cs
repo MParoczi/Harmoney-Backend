@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HarMoney.Contexts.Configurations;
 using HarMoney.Models;
+using Marques.EFCore.SnakeCase;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,12 +24,11 @@ namespace HarMoney.Contexts
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new TransactionEntityTypeConfiguration());
+            builder.ToSnakeCase();
             // builder.ApplyConfiguration(new UserEntityTypeConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder
-            .UseNpgsql(Environment.GetEnvironmentVariable("HARMONEY_CONNECTION"))
-            .UseSnakeCaseNamingConvention()
-            .UseLowerCaseNamingConvention();
+            .UseNpgsql(Environment.GetEnvironmentVariable("HARMONEY_CONNECTION"));
     }
 }

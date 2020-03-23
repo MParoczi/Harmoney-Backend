@@ -3,15 +3,17 @@ using System;
 using HarMoney.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HarMoney.Migrations
 {
     [DbContext(typeof(IdentityAppContext))]
-    partial class IdentityAppContextModelSnapshot : ModelSnapshot
+    [Migration("20200321212943_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,7 +84,8 @@ namespace HarMoney.Migrations
                         .IsRequired()
                         .HasColumnName("title")
                         .HasColumnType("character varying(30)")
-                        .HasMaxLength(30);
+                        .HasMaxLength(30)
+                        .IsRequired();
 
                     b.HasKey("Id")
                         .HasName("pk_transactions");
@@ -109,8 +112,9 @@ namespace HarMoney.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnName("email")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("character varying(320)")
+                        .HasMaxLength(320)
+                        .IsRequired();
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnName("email_confirmed")
@@ -118,11 +122,15 @@ namespace HarMoney.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnName("first_name")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(50)
+                        .IsRequired();
 
                     b.Property<string>("LastName")
                         .HasColumnName("last_name")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(20)
+                        .IsRequired();
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnName("lockout_enabled")

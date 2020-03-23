@@ -19,7 +19,7 @@ namespace HarMoney.Controllers
             SignInManager = signInManager;
         }
 
-        public async Task<ActionResult<User>> Register([FromBody] UserRegistration model)
+        public async Task<ActionResult<UserDto>> Register([FromBody] UserRegistration model)
         {
             var user = await UserManager.FindByEmailAsync(model.Email);
             if(user == null){
@@ -30,18 +30,18 @@ namespace HarMoney.Controllers
                 LastName = model.LastName
             };
                 var result = await UserManager.CreateAsync(user, model.Password);
-                return user;
+                return new UserDto(user);
             }
             return BadRequest();
         }
 
-        public async Task<ActionResult<User>> Login([FromBody]UserAuthentication model)
+        public async Task<ActionResult<UserDto>> Login([FromBody]UserAuthentication model)
         {
             User user = await UserManager.FindByEmailAsync(model.Email);
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
             if (result.Succeeded)
             {
-                return user;
+                return new UserDto(user);
             }
             else
             {
@@ -49,7 +49,7 @@ namespace HarMoney.Controllers
             }
         }
         
-        public async Task<int> Logout([FromBody]User userToLogout)
+        public async Task<int> Logout([FromBody]UserDto userToLogout)
         {
             var user = await UserManager.FindByEmailAsync(userToLogout.Email);
             await UserManager.UpdateSecurityStampAsync(user);
