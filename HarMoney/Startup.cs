@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using HarMoney.Contexts;
+using HarMoney.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,18 +25,27 @@ namespace HarMoney
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<User, AppRole>(opt =>  opt.User.RequireUniqueEmail = true )
+                .AddEntityFrameworkStores<IdentityAppContext>();
+
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
                         builder.WithOrigins("http://localhost:3000")
-                            .AllowAnyHeader();
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
             });
             services.AddControllers();
-            services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(opt =>
-                opt.UseNpgsql(Environment.GetEnvironmentVariable("HARMONEY_CONNECTION")));
+
+            services.AddDbContext<IdentityAppContext>(cfg =>
+                cfg.UseNpgsql(Environment.GetEnvironmentVariable("HARMONEY_CONNECTION")));
+
+            //services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(opt =>
+            //    opt.UseNpgsql(Environment.GetEnvironmentVariable("HARMONEY_CONNECTION")));
             services.AddMvc().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -56,6 +66,8 @@ namespace HarMoney
             app.UseCors(MyAllowSpecificOrigins);
             
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
