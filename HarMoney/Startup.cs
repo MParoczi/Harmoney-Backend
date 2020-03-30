@@ -34,7 +34,7 @@ namespace HarMoney
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins("https://harmoney.netlify.com")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
