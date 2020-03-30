@@ -115,7 +115,7 @@ INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20200321212943_InitialCreate', '3.1.2');
 
 INSERT INTO public.transactions (title, due_date, amount, frequency, direction)
-VALUES ('zsebpÃ©nz', TO_DATE('03/03/2020', 'DD/MM/YYYY'), 20000, 'Single', 'Income'),
-       ('gÃ¡zszÃ¡mla', TO_DATE('15/03/2020', 'DD/MM/YYYY'), 13458, 'Monthly', 'Expenditure'),
-       ('fizetÃ©s', TO_DATE('01/03/2020', 'DD/MM/YYYY'), 300000, 'Monthly', 'Income'),
-       ('kÃ¶zÃ¶s kÃ¶ltsÃ©g', TO_DATE('09/03/2020', 'DD/MM/YYYY'), 28236, 'Monthly', 'Expenditure');
+VALUES ('zsebpénz', TO_DATE('03/03/2020', 'DD/MM/YYYY'), 20000, 'Single', 'Income'),
+       ('gázszámla', TO_DATE('15/03/2020', 'DD/MM/YYYY'), 13458, 'Monthly', 'Expenditure'),
+       ('fizetés', TO_DATE('01/03/2020', 'DD/MM/YYYY'), 300000, 'Monthly', 'Income'),
+       ('közös költség', TO_DATE('09/03/2020', 'DD/MM/YYYY'), 28236, 'Monthly', 'Expenditure');
