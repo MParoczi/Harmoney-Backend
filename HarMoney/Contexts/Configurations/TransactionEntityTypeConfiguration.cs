@@ -23,6 +23,10 @@ namespace HarMoney.Contexts.Configurations
                 .HasConversion(
                     d => d.ToString(),
                     d => (Direction)Enum.Parse(typeof(Direction), d));
+            builder.Property(prop => prop.Category).HasColumnName("category").IsRequired()
+                .HasConversion(
+                    d => d.ToString(),
+                    d => (Category)Enum.Parse(typeof(Category), d));
         }
     }
 }
