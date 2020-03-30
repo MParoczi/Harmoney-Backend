@@ -36,6 +36,7 @@ namespace HarMoney.Models
     {
         Education,
         Entertainment,
+        Extra,
         Groceries,
         Health,
         Household,
