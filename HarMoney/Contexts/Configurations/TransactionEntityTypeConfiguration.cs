@@ -25,8 +25,8 @@ namespace HarMoney.Contexts.Configurations
                     d => (Direction)Enum.Parse(typeof(Direction), d));
             builder.Property(prop => prop.Category).HasColumnName("category").IsRequired()
                 .HasConversion(
-                    d => d.ToString(),
-                    d => (Category)Enum.Parse(typeof(Category), d));
+                    c => c.ToString(),
+                    c => (Category)Enum.Parse(typeof(Category), c));
         }
     }
 }
