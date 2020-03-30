@@ -78,6 +78,11 @@ namespace HarMoney.Migrations
                         .HasColumnName("frequency")
                         .HasColumnType("text");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnName("category")
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnName("title")
