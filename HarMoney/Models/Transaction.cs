@@ -14,6 +14,8 @@ namespace HarMoney.Models
         public Frequency Frequency { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public Direction Direction { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Category Category { get; set; }
     }
 
     public enum Frequency
@@ -28,5 +30,27 @@ namespace HarMoney.Models
     {
         Income,
         Expenditure
+    }
+
+    public enum Category
+    {
+        Education,
+        Entertainment,
+        Extra,
+        Groceries,
+        Health,
+        Household,
+        Insurance,
+        Investment,
+        Kids,
+        Other,
+        Pets,
+        Sport,
+        Transportation,
+        Gift,
+        Heritage,
+        Increment,
+        Prize,
+        Salary
     }
 }
