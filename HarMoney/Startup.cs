@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using EmailService;
 using HarMoney.Contexts;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Builder;
@@ -58,6 +59,11 @@ namespace HarMoney
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+            
+            EmailConfiguration emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
