@@ -61,6 +61,24 @@ namespace HarMoney.Controllers
             await SignInManager.SignOutAsync();
             return 204;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userEmail, string token)
+        {
+            if (userEmail == null || token == null)
+            {
+                return BadRequest();
+            }
+
+            User user = await UserManager.FindByEmailAsync(userEmail);
             
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            await UserManager.ConfirmEmailAsync(user, token);
+            return Redirect("http://localhost:3000/");
+        }
     }
 }
