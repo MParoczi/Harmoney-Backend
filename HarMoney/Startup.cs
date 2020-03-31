@@ -4,6 +4,7 @@ using HarMoney.Contexts;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,8 @@ namespace HarMoney
                     opt.User.RequireUniqueEmail = true;
                     opt.SignIn.RequireConfirmedEmail = true;
                 })
-                .AddEntityFrameworkStores<IdentityAppContext>();
+                .AddEntityFrameworkStores<IdentityAppContext>()
+                .AddDefaultTokenProviders();
 
 
             services.AddCors(options =>

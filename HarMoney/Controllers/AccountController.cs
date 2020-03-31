@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Composition;
 using System.Threading.Tasks;
 using HarMoney.Models;
@@ -34,6 +34,13 @@ namespace HarMoney.Controllers
                 LastName = model.LastName
             };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    string token = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+                    string confirmationLink =
+                        Url.Action("ConfirmEmail", "Account", new {userEmail = user.Email, token = token}, Request.Scheme);
+                    Logger.Log(LogLevel.Warning, confirmationLink);
+                }
                 return new UserDto(user);
             }
             return BadRequest();
