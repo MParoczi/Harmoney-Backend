@@ -61,7 +61,8 @@ namespace HarMoney.Migrations
                     due_date = table.Column<DateTime>(nullable: false),
                     amount = table.Column<int>(nullable: false),
                     frequency = table.Column<string>(nullable: false),
-                    direction = table.Column<string>(nullable: false)
+                    direction = table.Column<string>(nullable: false),
+                    category = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
