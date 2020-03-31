@@ -1,9 +1,6 @@
-﻿using System;
-using System.Composition;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EmailService;
 using HarMoney.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -46,7 +43,7 @@ namespace HarMoney.Controllers
                     string confirmationLink =
                         Url.Action("ConfirmEmail", "Account", new {userEmail = user.Email, token = token}, Request.Scheme);
                     var message = new Message(new string[] { user.Email }, "Confirmation letter - Harmoney", confirmationLink);
-                    EmailSender.SendEmail(message);
+                    await EmailSender.SendEmailAsync(message);
                 }
                 return new UserDto(user);
             }
