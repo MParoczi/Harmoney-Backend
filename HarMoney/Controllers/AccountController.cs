@@ -19,6 +19,7 @@ namespace HarMoney.Controllers
             SignInManager = signInManager;
         }
 
+        [HttpPost]
         public async Task<ActionResult<UserDto>> Register([FromBody] UserRegistration model)
         {
             var user = await UserManager.FindByEmailAsync(model.Email);
@@ -35,6 +36,7 @@ namespace HarMoney.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
         public async Task<ActionResult<UserDto>> Login([FromBody]UserAuthentication model)
         {
             User user = await UserManager.FindByEmailAsync(model.Email);
@@ -49,6 +51,7 @@ namespace HarMoney.Controllers
             }
         }
         
+        [HttpPost]
         public async Task<int> Logout([FromBody]UserDto userToLogout)
         {
             var user = await UserManager.FindByEmailAsync(userToLogout.Email);
