@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Migrations\20200321212820_InitialCreate.cs" />
     <Compile Remove="Migrations\20200321212820_InitialCreate.Designer.cs" />
