@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Composition;
 using System.Threading.Tasks;
+using EmailService;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,12 +16,17 @@ namespace HarMoney.Controllers
         private UserManager<User> UserManager { get; }
         private SignInManager<User> SignInManager  { get; }
         private ILogger<AccountController> Logger  { get; }
+        private IEmailSender EmailSender { get; }
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ILogger<AccountController> logger)
+        public AccountController(UserManager<User> userManager,
+                                 SignInManager<User> signInManager,
+                                 ILogger<AccountController> logger,
+                                 IEmailSender emailSender)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             Logger = logger;
+            EmailSender = emailSender;
         }
 
         public async Task<ActionResult<UserDto>> Register([FromBody] UserRegistration model)
@@ -39,7 +45,8 @@ namespace HarMoney.Controllers
                     string token = await UserManager.GenerateEmailConfirmationTokenAsync(user);
                     string confirmationLink =
                         Url.Action("ConfirmEmail", "Account", new {userEmail = user.Email, token = token}, Request.Scheme);
-                    Logger.Log(LogLevel.Warning, confirmationLink);
+                    var message = new Message(new string[] { user.Email }, "Confirmation letter - Harmoney", confirmationLink);
+                    EmailSender.SendEmail(message);
                 }
                 return new UserDto(user);
             }
