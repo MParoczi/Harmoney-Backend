@@ -1,10 +1,11 @@
-﻿namespace HarMoney.Models
-// Zoli
+using System.ComponentModel.DataAnnotations;
+
+
+namespace HarMoney.Models
 {
     public class UserRegistration : User
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        [Required]
         public string Password { get; set; }
     }
 }

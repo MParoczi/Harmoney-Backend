@@ -46,6 +46,14 @@ namespace HarMoney
                 .AddEntityFrameworkStores<IdentityAppContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(config =>
+            {
+                config.Password.RequiredLength = 4;
+                config.Password.RequireDigit = true;
+                config.Password.RequireNonAlphanumeric = true;
+                config.Password.RequireLowercase = true;
+                config.Password.RequireUppercase = true;
+            });
 
             services.AddCors(options =>
             {

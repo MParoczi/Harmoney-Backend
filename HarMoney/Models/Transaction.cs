@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using HarMoney.Helpers.Validation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -7,15 +9,32 @@ namespace HarMoney.Models
     public class Transaction
     {
         public long Id { get; set; }
+
+        [Required]
+        [StringLength(30, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 1)]
         public string Title { get; set; }
-        public DateTime DueDate { get; set; }
+
+        [Required]
+        [ValidDateRange(ErrorMessage = "You shouldn't plan 10 years ahead")]
+        public DateTime? DueDate { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "The amount must be between 1 and 2147483647")]
         public int Amount { get; set; }
+
+        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
-        public Frequency Frequency { get; set; }
+        [EnumDataType(typeof(Frequency))]
+        public Frequency? Frequency { get; set; }
+
+        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
-        public Direction Direction { get; set; }
+        [EnumDataType(typeof(Direction))]
+        public Direction? Direction { get; set; }
+
+        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
-        public Category Category { get; set; }
+        [EnumDataType(typeof(Category))]
+        public Category? Category { get; set; }
     }
 
     public enum Frequency
