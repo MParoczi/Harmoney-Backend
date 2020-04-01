@@ -39,7 +39,7 @@ namespace HarMoney
                 {
                     jwtOptions.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        IssuerSigningKey = TokenConroller.SIGNIN_KEY,
+                        IssuerSigningKey = AccountController.SIGNIN_KEY,
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateIssuerSigningKey = true,
