@@ -4,8 +4,7 @@ using EmailService;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
+// Zoli
 namespace HarMoney.Controllers
 {
     [Route("api/[controller]/[action]")]
@@ -13,20 +12,18 @@ namespace HarMoney.Controllers
     {
         private UserManager<User> UserManager { get; }
         private SignInManager<User> SignInManager  { get; }
-        private ILogger<AccountController> Logger  { get; }
         private IEmailSender EmailSender { get; }
 
         public AccountController(UserManager<User> userManager,
                                  SignInManager<User> signInManager,
-                                 ILogger<AccountController> logger,
                                  IEmailSender emailSender)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            Logger = logger;
             EmailSender = emailSender;
         }
 
+        [HttpPost]
         public async Task<ActionResult<UserDto>> Register([FromBody] UserRegistration model)
         {
             var user = await UserManager.FindByEmailAsync(model.Email);
@@ -51,6 +48,7 @@ namespace HarMoney.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
         public async Task<ActionResult<UserDto>> Login([FromBody]UserAuthentication model)
         {
             User user = await UserManager.FindByEmailAsync(model.Email);
@@ -65,6 +63,7 @@ namespace HarMoney.Controllers
             }
         }
         
+        [HttpPost]
         public async Task<int> Logout([FromBody]UserDto userToLogout)
         {
             var user = await UserManager.FindByEmailAsync(userToLogout.Email);

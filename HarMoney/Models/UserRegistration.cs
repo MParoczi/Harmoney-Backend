@@ -1,4 +1,5 @@
 ﻿namespace HarMoney.Models
+// Zoli
 {
     public class UserRegistration : User
     {
