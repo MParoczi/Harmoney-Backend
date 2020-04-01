@@ -4,6 +4,7 @@ using HarMoney.Contexts;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,9 +26,17 @@ namespace HarMoney
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<User, AppRole>(opt =>  opt.User.RequireUniqueEmail = true )
+            services.AddIdentity<User, AppRole>(opt =>opt.User.RequireUniqueEmail = true )
                 .AddEntityFrameworkStores<IdentityAppContext>();
 
+            services.Configure<IdentityOptions>(config =>
+            {
+                config.Password.RequiredLength = 4;
+                config.Password.RequireDigit = true;
+                config.Password.RequireNonAlphanumeric = true;
+                config.Password.RequireLowercase = true;
+                config.Password.RequireUppercase = true;
+            });
 
             services.AddCors(options =>
             {
