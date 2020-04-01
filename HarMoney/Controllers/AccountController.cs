@@ -40,7 +40,10 @@ namespace HarMoney.Controllers
                     string token = await UserManager.GenerateEmailConfirmationTokenAsync(user);
                     string confirmationLink =
                         Url.Action("ConfirmEmail", "Account", new {userEmail = user.Email, token = token}, Request.Scheme);
-                    var message = new Message(new string[] { user.Email }, "Confirmation letter - Harmoney", confirmationLink);
+
+                    string emailContent = EmailSender.CreateEmailContent(user.FirstName, confirmationLink);
+                    Message message = new Message(new string[] { user.Email }, "Confirmation letter - Harmoney", emailContent);
+                    
                     await EmailSender.SendEmailAsync(message);
                 }
                 return new UserDto(user);
