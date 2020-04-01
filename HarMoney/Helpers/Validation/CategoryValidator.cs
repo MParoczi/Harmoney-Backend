@@ -6,13 +6,13 @@ namespace HarMoney.Helpers.Validation
 {
     public class CategoryValidator
     {
-        private List<Category?> _incomes = new List<Category?>()
+        private readonly List<Category?> _incomes = new List<Category?>()
         {
             Category.Extra, Category.Gift, Category.Heritage, Category.Increment,
             Category.Other, Category.Prize, Category.Salary
         };
 
-        private List<Category?> _expenditures = new List<Category?>()
+        private readonly List<Category?> _expenditures = new List<Category?>()
         {
             Category.Education, Category.Entertainment, Category.Groceries,
             Category.Health, Category.Household, Category.Insurance, Category.Investment,
