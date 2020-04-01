@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using EmailService;
 using HarMoney.Models;
@@ -90,7 +90,7 @@ namespace HarMoney.Controllers
             }
 
             await UserManager.ConfirmEmailAsync(user, token);
-            return Redirect("http://localhost:3000/");
+            return Redirect(Environment.GetEnvironmentVariable("HARMONEY_FRONTEND"));
         }
     }
 }
