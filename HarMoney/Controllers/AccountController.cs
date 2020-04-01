@@ -12,17 +12,14 @@ namespace HarMoney.Controllers
     {
         private UserManager<User> UserManager { get; }
         private SignInManager<User> SignInManager  { get; }
-        private ILogger<AccountController> Logger  { get; }
         private IEmailSender EmailSender { get; }
 
         public AccountController(UserManager<User> userManager,
                                  SignInManager<User> signInManager,
-                                 ILogger<AccountController> logger,
                                  IEmailSender emailSender)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            Logger = logger;
             EmailSender = emailSender;
         }
 
