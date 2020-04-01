@@ -30,17 +30,17 @@ namespace EmailService
         public string CreateEmailContent(string firstName, string confirmationLink)
         {
             return $@"
-                    <h1>Dear {firstName},</h1>
+Dear {firstName},
 
-                    As the whole Harmoney team, we would like to thank you to register on our website.
-                    Before you can proceed, you have to confirm your e-mail address that you have provided at the registration.
+As the whole Harmoney team, we would like to thank you to register on our website.
+Before you can proceed, you have to confirm your e-mail address that you have provided at the registration.
 
-                    Please click on the following link: <a href='{confirmationLink}'>Confirm registration</a>
+Please click on the following link: {confirmationLink}
 
-                    If you did not register on the Harmoney website, please ignore this letter!
+If you did not register on the Harmoney website, please ignore this letter!
 
-                    Best Regards,
-                    The Harmoney team
+Best Regards,
+The Harmoney team
                     ";
         }
 
