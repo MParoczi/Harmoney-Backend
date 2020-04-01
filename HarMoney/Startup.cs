@@ -32,6 +32,7 @@ namespace HarMoney
                 .GetSection("EmailConfiguration")
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
             
             services.AddIdentity<User, AppRole>(opt =>
                 {
