@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using HarMoney.Contexts;
+using HarMoney.Controllers;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HarMoney
 {
@@ -28,7 +30,23 @@ namespace HarMoney
             services.AddIdentity<User, AppRole>(opt =>  opt.User.RequireUniqueEmail = true )
                 .AddEntityFrameworkStores<IdentityAppContext>();
 
-
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = "JwtBearer";
+                    options.DefaultChallengeScheme = "JwtBearer";
+                })
+                .AddJwtBearer("JwtBearer", jwtOptions =>
+                {
+                    jwtOptions.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        IssuerSigningKey = TokenConroller.SIGNIN_KEY,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(5)
+                    };
+                });
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -36,7 +54,8 @@ namespace HarMoney
                     {
                         builder.WithOrigins("http://localhost:3000")
                             .AllowAnyHeader()
-                            .AllowAnyMethod();
+                            .AllowAnyMethod()
+                            .AllowCredentials();
                     });
             });
             services.AddControllers();
