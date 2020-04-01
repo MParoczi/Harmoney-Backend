@@ -31,6 +31,7 @@ namespace HarMoney
             EmailConfiguration emailConfig = Configuration
                 .GetSection("EmailConfiguration")
                 .Get<EmailConfiguration>();
+            emailConfig.Password = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
             
