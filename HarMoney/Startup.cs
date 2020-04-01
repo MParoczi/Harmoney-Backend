@@ -1,10 +1,13 @@
 using System;
 using System.Text.Json.Serialization;
+using EmailService;
 using HarMoney.Contexts;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,8 +28,20 @@ namespace HarMoney
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<User, AppRole>(opt =>  opt.User.RequireUniqueEmail = true )
-                .AddEntityFrameworkStores<IdentityAppContext>();
+            EmailConfiguration emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            emailConfig.Password = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
+            
+            services.AddIdentity<User, AppRole>(opt =>
+                {
+                    opt.User.RequireUniqueEmail = true;
+                    opt.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<IdentityAppContext>()
+                .AddDefaultTokenProviders();
 
 
             services.AddCors(options =>
@@ -34,7 +49,7 @@ namespace HarMoney
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins(Environment.GetEnvironmentVariable("HARMONEY_FRONTEND"))
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });

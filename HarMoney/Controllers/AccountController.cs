@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Composition;
 using System.Threading.Tasks;
+using EmailService;
 using HarMoney.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HarMoney.Controllers
 {
@@ -12,11 +13,18 @@ namespace HarMoney.Controllers
     {
         private UserManager<User> UserManager { get; }
         private SignInManager<User> SignInManager  { get; }
+        private ILogger<AccountController> Logger  { get; }
+        private IEmailSender EmailSender { get; }
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager,
+                                 SignInManager<User> signInManager,
+                                 ILogger<AccountController> logger,
+                                 IEmailSender emailSender)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            Logger = logger;
+            EmailSender = emailSender;
         }
 
         public async Task<ActionResult<UserDto>> Register([FromBody] UserRegistration model)
@@ -30,6 +38,14 @@ namespace HarMoney.Controllers
                 LastName = model.LastName
             };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    string token = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+                    string confirmationLink =
+                        Url.Action("ConfirmEmail", "Account", new {userEmail = user.Email, token = token}, Request.Scheme);
+                    var message = new Message(new string[] { user.Email }, "Confirmation letter - Harmoney", confirmationLink);
+                    await EmailSender.SendEmailAsync(message);
+                }
                 return new UserDto(user);
             }
             return BadRequest();
@@ -57,6 +73,24 @@ namespace HarMoney.Controllers
             await SignInManager.SignOutAsync();
             return 204;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userEmail, string token)
+        {
+            if (userEmail == null || token == null)
+            {
+                return BadRequest();
+            }
+
+            User user = await UserManager.FindByEmailAsync(userEmail);
             
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            await UserManager.ConfirmEmailAsync(user, token);
+            return Redirect(Environment.GetEnvironmentVariable("HARMONEY_FRONTEND"));
+        }
     }
 }
