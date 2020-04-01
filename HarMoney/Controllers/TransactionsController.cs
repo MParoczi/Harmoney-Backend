@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HarMoney.Helpers.Validation;
 
 namespace HarMoney.Controllers
 {
@@ -51,25 +52,33 @@ namespace HarMoney.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(transaction).State = EntityState.Modified;
+            CategoryValidator validator = new CategoryValidator();
 
-            try
+            if (validator.CategoryIsValid(transaction))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TransactionExists(id))
+                _context.Entry(transaction).State = EntityState.Modified;
+
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!TransactionExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
+
+                return transaction;
             }
 
-            return transaction;
+            string errorMessage = validator.Message(transaction.Direction);
+            return BadRequest(new {error = errorMessage});
         }
 
         // POST: api/Transactions
@@ -78,10 +87,17 @@ namespace HarMoney.Controllers
         [HttpPost]
         public async Task<ActionResult<Transaction>> PostTransaction(Transaction transaction)
         {
-            _context.Transactions.Add(transaction);
-            await _context.SaveChangesAsync();
+            CategoryValidator validator = new CategoryValidator();
+            if (validator.CategoryIsValid(transaction))
+            {
+                _context.Transactions.Add(transaction);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTransaction", new { id = transaction.Id }, transaction);
+                return CreatedAtAction("GetTransaction", new {id = transaction.Id}, transaction);
+            }
+
+            string errorMessage = validator.Message(transaction.Direction);
+            return BadRequest(new {error = errorMessage});
         }
 
         // DELETE: api/Transactions/5
