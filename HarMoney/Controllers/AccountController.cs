@@ -16,11 +16,11 @@ namespace HarMoney.Controllers
     [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
-        public UserManager<User> UserManager { get; private set; }
-        public SignInManager<User> SignInManager { get; private set; }
-        public IEmailSender EmailSender { get; private set; }
+        public UserManager<User> UserManager { get; }
+        public SignInManager<User> SignInManager { get; }
+        public IEmailSender EmailSender { get; }
 
-        private const string SECRET_KEY = "harmoney_secret_key";
+        private static readonly string SECRET_KEY = Environment.GetEnvironmentVariable("HARMONEY_SECRET_KEY");
         public static readonly SymmetricSecurityKey SIGNIN_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
 
         public AccountController(UserManager<User> userManager,
