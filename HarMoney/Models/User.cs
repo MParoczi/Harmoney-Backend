@@ -37,6 +37,7 @@ namespace HarMoney.Models
         [RegularExpression(@"^[a-zA-Z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ffáÁéÉíÍóÓőŐúÚűŰ., '\\s-]{1,}$",
             ErrorMessage = "Only letters ' - . , and spaces are allowed")]
         public string LastName { get; set; }
+        public string Token { get; set; }
 
         public UserDto()
         {
