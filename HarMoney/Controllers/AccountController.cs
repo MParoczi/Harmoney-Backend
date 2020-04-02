@@ -18,8 +18,6 @@ namespace HarMoney.Controllers
     [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
-        public UserManager<User> UserManager { get; private set; }
-        public SignInManager<User> SignInManager { get; private set; }
         public IEmailSender EmailSender { get; private set; }
         private const string SECRET_KEY = "harmoney_secret_key";
         public static readonly SymmetricSecurityKey SIGNIN_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
