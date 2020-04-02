@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using System;
-using System.Composition;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -8,7 +7,6 @@ using System.Text;
 using HarMoney.Helpers.Validation;
 using EmailService;
 using HarMoney.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +16,10 @@ namespace HarMoney.Controllers
     [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
+        public UserManager<User> UserManager { get; private set; }
+        public SignInManager<User> SignInManager { get; private set; }
         public IEmailSender EmailSender { get; private set; }
+
         private const string SECRET_KEY = "harmoney_secret_key";
         public static readonly SymmetricSecurityKey SIGNIN_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
 
