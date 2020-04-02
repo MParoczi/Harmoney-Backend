@@ -24,9 +24,6 @@ namespace HarMoney.Controllers
         private const string SECRET_KEY = "harmoney_secret_key";
         public static readonly SymmetricSecurityKey SIGNIN_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
 
-        private UserManager<User> UserManager { get; }
-        private SignInManager<User> SignInManager  { get; }
-
         public AccountController(UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender)
@@ -94,13 +91,9 @@ namespace HarMoney.Controllers
             if (result.Succeeded)
             {
                 var token = GenerateToken(model.Email, user.FirstName, user.LastName, user.Id.ToString());
-                return new UserDto()
-                {
-                    FirstName = user.LastName,
-                    LastName = user.FirstName,
-                    Email = user.Email,
-                    Token = token
-                };
+                UserDto userDto = new UserDto(user);
+                userDto.Token = token;
+                return userDto;
             }
 
             return BadRequest();
@@ -147,7 +140,9 @@ namespace HarMoney.Controllers
             var result = jwtHandler.ReadToken(jwt.TokenString) as JwtSecurityToken;
             var Email = result.Claims.First(claim => claim.Type == ClaimTypes.UserData).Value;
             var user = await UserManager.FindByEmailAsync(Email);
-            return new UserDto(user);
+            UserDto userDto = new UserDto(user);
+            userDto.Token = jwt.TokenString;
+            return userDto;
         }
         
 
