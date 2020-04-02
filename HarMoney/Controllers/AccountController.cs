@@ -8,13 +8,33 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HarMoney.Controllers
 {
+    /// <summary>
+    /// Controller class for the Account management. Handles the HTTPRequest from the frontend.
+    /// </summary>
     [Route("api/[controller]/[action]")]
     public class AccountController : Controller
     {
+        /// <summary>
+        /// Provides the APIs for managing user in a persistence store.
+        /// </summary>
         public UserManager<User> UserManager { get; private set; }
+        
+        /// <summary>
+        /// Provides the APIs for user sign in.
+        /// </summary>
         public SignInManager<User> SignInManager { get; private set; }
+        
+        /// <summary>
+        /// Provides the APIs for sending automatized e-mails. In this case used for registration confirmation.
+        /// </summary>
         public IEmailSender EmailSender { get; private set; }
 
+        /// <summary>
+        /// Constructor for the Account controller. Parameters are injected via dependency injection.
+        /// </summary>
+        /// <param name="userManager">The API for managing user in a persistence store</param>
+        /// <param name="signInManager">The API for user sign in</param>
+        /// <param name="emailSender">The API for automatized e-mail handling</param>
         public AccountController(UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender)
@@ -24,6 +44,11 @@ namespace HarMoney.Controllers
             EmailSender = emailSender;
         }
 
+        /// <summary>
+        /// Controls the user registration. It can handle POST requests.
+        /// </summary>
+        /// <param name="model">The model that represents the user's details and credentials for registration</param>
+        /// <returns>Returns either Bad Request in case of unsuccessful registration or the newly created User if the registration succeeded</returns>
         [HttpPost]
         public async Task<ActionResult<UserDto>> Register([FromBody] UserRegistration model)
         {
@@ -74,6 +99,11 @@ namespace HarMoney.Controllers
             return BadRequest(this.ModelState);
         }
 
+        /// <summary>
+        /// Controls the user login. It can handle POST requests.
+        /// </summary>
+        /// <param name="model">The model that represents the user's details and credentials for login</param>
+        /// <returns>Returns either Bad Request in case of unsuccessful login or the found User if the login succeeded</returns>
         [HttpPost]
         public async Task<ActionResult<UserDto>> Login([FromBody] UserAuthentication model)
         {
@@ -89,6 +119,11 @@ namespace HarMoney.Controllers
             }
         }
 
+        /// <summary>
+        /// Controls the user logout. It can handle POST requests.
+        /// </summary>
+        /// <param name="userToLogout">The model that represents the user's details and credentials for login</param>
+        /// <returns>It returns No content response in case of success otherwise Bad Request</returns>
         [HttpPost]
         public async Task<ActionResult> Logout([FromBody] UserDto userToLogout)
         {
@@ -104,6 +139,12 @@ namespace HarMoney.Controllers
             return BadRequest(this.ModelState);
         }
 
+        /// <summary>
+        /// Controls the registration confirmation. It redirects to the HarMoney frontend if the confirmation was successful.
+        /// </summary>
+        /// <param name="userEmail">The user's e-mail address where the service has sent the confirmation letter</param>
+        /// <param name="token">The token that validates the registration</param>
+        /// <returns>If the confirmation was successful, the controller will redirect to the HarMoney frontend</returns>
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userEmail, string token)
         {
