@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HarMoney.Helpers.Validation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HarMoney.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TransactionsController : ControllerBase
