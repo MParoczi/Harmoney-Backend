@@ -12,7 +12,22 @@ HarMoney is a personal financial management web application. Users are able to r
 they can monitor and analyze their financial decisions.
 
 ## How to run
-### user secret should contain:
-### 
-### {"ConnectionString" : "Server=localhost; Port=5432; Database=harmoney; Username=<username>; Password=<password>;"}
-### https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows
+To be able to run the WebAPI you have to follow these simple steps:
+ 1. Create an empty database
+ 2. Populate your newly created database with the ```create-tables-or-reset-database.sql``` file.  
+ ```(~/HarMoney/Contexts/SQL/create-tables-or-reset-database.sql)```
+ 3. Setup your environment variables with the following key-value pairs:
+    * ```HARMONEY_CONNECTION : Host=DBHost; Database=DBName; Username=YourUsername; Password=YourPassword;```
+    * ```HARMONEY_FRONTEND : https://harmoney.netlify.com```
+ 4. Run the application
+ 
+This way you will be able to run the WebAPI, however the EmailService will not be available because the credentials of
+this service are not public.
+
+## Contributors
+The contributors of this project are all students of Codecool Ltd.
+
+ * [Paróczi Márk](https://github.com/MParoczi)
+ * [Sipos Zoltán](https://github.com/siposzoltan03)
+ * [Szűcs Nikolett](https://github.com/szucsnikolett)
+ * [Vörös Eszter](https://github.com/wory04)
