@@ -24,6 +24,10 @@ To be able to run the WebAPI you have to follow these simple steps:
 This way you will be able to run the WebAPI, however the EmailService will not be available because the credentials of
 this service are not public.
 
+## Frontend
+The HarMoney frontend that acts as the presentation layer for the project is available at the following link:
+[HarMoney Frontend](https://github.com/siposzoltan03/Harmoney-Frontend)
+
 ## Contributors
 The contributors of this project are all students of Codecool Ltd.
 
